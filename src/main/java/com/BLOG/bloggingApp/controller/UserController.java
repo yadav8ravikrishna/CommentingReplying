@@ -26,7 +26,7 @@ public class UserController {
     }
 
     @GetMapping("/getAUser/{userId}")
-    public User getAuser(@PathVariable Long userId) throws ResourceNotFoundException {
+    public UserDto getAUser(@PathVariable Long userId) throws ResourceNotFoundException {
         return userServiceInterface.getAUser(userId);
     }
 

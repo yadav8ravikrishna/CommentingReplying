@@ -40,10 +40,10 @@ public class UserServiceImpl implements UserServiceInterface {
 
 
     @Override
-    public User getAUser(Long id) throws ResourceNotFoundException {
+    public UserDto getAUser(Long id) throws ResourceNotFoundException {
         Optional<User> user = userRepo.findById(id);
         if (user.isPresent()){
-            return user.get();
+            return UserMapper.mapUserToUserDto(user.get());
         }else {throw  new ResourceNotFoundException("User not Found");
         }
     }

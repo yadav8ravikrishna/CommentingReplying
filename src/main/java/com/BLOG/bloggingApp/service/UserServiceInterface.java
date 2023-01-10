@@ -9,7 +9,7 @@ import java.util.List;
 public interface UserServiceInterface {
     User addUser(User user);
     List<UserDto> allUsers();
-    User getAUser(Long id) throws ResourceNotFoundException;
+    UserDto getAUser(Long id) throws ResourceNotFoundException;
     User editAUser(Long id,User user);
     void deleteAUser(Long id) throws ResourceNotFoundException;
 }
