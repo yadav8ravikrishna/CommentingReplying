@@ -1,15 +1,11 @@
 package com.BLOG.bloggingApp.mapper;
 
 import com.BLOG.bloggingApp.dto.BlogDto;
-import com.BLOG.bloggingApp.dto.CommentDto;
 import com.BLOG.bloggingApp.dto.UserDto;
 import com.BLOG.bloggingApp.entity.Blog;
-import com.BLOG.bloggingApp.entity.Comment;
 import com.BLOG.bloggingApp.entity.User;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class UserMapper {
@@ -21,7 +17,6 @@ public class UserMapper {
         UserDto userdto=UserDto.builder()
                 .id(user.getId())
                 .userName(user.getUserName())
-                //.address(user.getAddress())
                 .build();
 
         Set<Blog> blogs=user.getBlogs();
@@ -30,13 +25,7 @@ public class UserMapper {
             BlogDto blg= BlogMapper.mapBlogToBlogDto(blog);
             blogDtoList.add(blg);
 
-//
-//            Set<Comment> comments = blog.getComments();
-//            Set<CommentDto> commentDtoSet = new HashSet<>();
-//            for (Comment comment : comments){
-//                CommentDto commentDto = CommentMapper.mapCommentToCommentDto(comment);
-//                commentDtoSet.add(commentDto);
-//            }
+
 
         }
 
@@ -52,8 +41,6 @@ public class UserMapper {
         return User.builder()
                 .id(userDto.getId())
                 .userName(userDto.getUserName())
-//                .blogs(userDto.getBlogs())
-                //.address(userDto.getAddress())
                 .build();
     }
 }

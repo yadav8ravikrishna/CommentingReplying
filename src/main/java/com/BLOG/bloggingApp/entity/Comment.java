@@ -23,7 +23,7 @@ public class Comment {
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     Set<Comment> replies;
 
-    @ManyToOne(targetEntity = User.class,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "usersComment_fk",referencedColumnName = "id")
     private User user;
 }

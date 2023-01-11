@@ -29,61 +29,87 @@ public class CommentServiceImpl implements CommentServiceInterface {
         this.blogRepo = blogRepo;
     }
 
-    @Override
-    public String addComment(Long blogId,Long userId, Long parentId, Comment comment,Long commentedBy) throws ResourceNotFoundException {
-
-        Optional<User> user = userRepo.findById(userId);
-        if(parentId==0) {
-            if (user.isPresent()) {
-                Set<Blog> blogs = user.get().getBlogs();
-                for (Blog blog : blogs) {
-                    if (Objects.equals(blog.getId(), blogId)) {
-                        comment.setUser(userRepo.findById(commentedBy).get());
-                        blog.getComments().add(comment);
-                        blogRepo.save(blog);
-                    } else {
-                        throw new ResourceNotFoundException("blog not found");
-                    }
-                }
-            }else{throw new ResourceNotFoundException("user not found");}
-        }else {
-            if (user.isPresent()) {
-                Set<Blog> blogs = user.get().getBlogs();
-                for (Blog blog : blogs) {
-                    if (Objects.equals(blog.getId(), blogId)) {
-                        Set<Comment> comments=blog.getComments();
-                        for (Comment comment1:comments){
-                            if (Objects.equals(comment1.getId(), parentId)) {
-                                comment.setUser(userRepo.findById(commentedBy).get());
-                                comment1.getReplies().add(comment);
-                                commentRepo.save(comment1);
-                            }else {throw new ResourceNotFoundException("Comment with id: "+parentId+" not found");}
-                        }
-                    } else {
-                        throw new ResourceNotFoundException("blog not found");
-                    }
-                }
-            }else{throw new ResourceNotFoundException("user not found");}
-        }
-
-
-
-//        userRepo.findById(userId).get().getBlogs().stream().map(blog -> {
-//            if(Objects.equals(blog.getId(), blogId)){
-//                blog.getComments().add(comment);
-//            }
-//           return blogRepo.save(blog);
-//        });
-//        if (parentId==0){
-////            Comment firstComment = commentRepo.save(comment);
-//            blog.setComments(comments);
+//    @Override
+//    public String addComment(Long blogId,Long userId, Long parentId, Comment comment,Long commentedBy) throws ResourceNotFoundException {
+//
+//        Optional<User> user = userRepo.findById(userId);
+//
+//        if(parentId==null) {
+//            if (user.isPresent()) {
+//                Set<Blog> blogs = user.get().getBlogs();
+//                for (Blog blog : blogs) {
+//                    if (Objects.equals(blog.getId(), blogId)) {
+//                        comment.setUser(userRepo.findById(commentedBy).get());
+//                        blog.getComments().add(comment);
+//                        blogRepo.save(blog);
+//                    } else {
+//                        throw new ResourceNotFoundException("blog not found");
+//                    }
+//                }
+//            }else{throw new ResourceNotFoundException("user not found");}
+//        }else {
+//            if (user.isPresent()) {
+//                Set<Blog> blogs = user.get().getBlogs();
+//                for (Blog blog : blogs) {
+//                    if (Objects.equals(blog.getId(), blogId)) {
+//                        Set<Comment> comments=blog.getComments();
+//                        for (Comment comment1:comments){
+//                            if (Objects.equals(comment1.getId(), parentId)) {
+//                                comment.setUser(userRepo.findById(commentedBy).get());
+//                                comment1.getReplies().add(comment);
+//                                commentRepo.save(comment1);
+//                            }else {throw new ResourceNotFoundException("Comment with id: "+parentId+" not found");}
+//                        }
+//                    } else {
+//                        throw new ResourceNotFoundException("blog not found");
+//                    }
+//                }
+//            }else{throw new ResourceNotFoundException("user not found");}
 //        }
-       // Comment comment = CommentMapper.mapCommentDtoToComment(commentDto);
+//
+//
+//
+////        userRepo.findById(userId).get().getBlogs().stream().map(blog -> {
+////            if(Objects.equals(blog.getId(), blogId)){
+////                blog.getComments().add(comment);
+////            }
+////           return blogRepo.save(blog);
+////        });
+////        if (parentId==0){
+//////            Comment firstComment = commentRepo.save(comment);
+////            blog.setComments(comments);
+////        }
+//       // Comment comment = CommentMapper.mapCommentDtoToComment(commentDto);
+//
+//        //r//eturn commentRepo.save(comment);
+//        commentRepo.save(comment);
+//        return "Comment added";
+//    }
+  @Override
+  public String addComment(Long blogId, Long parentId, Comment comment,Long commentedBy) throws ResourceNotFoundException {
+        Optional<User> user = userRepo.findById(commentedBy);
+        Optional<Blog> blog = blogRepo.findById(blogId);
+        if(user.isPresent()){
+            if (blog.isPresent()){
+                if(parentId==0){
+                    comment.setUser(user.get());
+                    blog.get().getComments().add(comment);
+                    blogRepo.save(blog.get());
+                }else {
+                    Optional<Comment> comment1 = commentRepo.findById(parentId);
+                    if (comment1.isPresent()){
+                        comment.setUser(user.get());
+                        comment1.get().getReplies().add(comment);
+                        commentRepo.save(comment1.get());
+                    }else {throw new ResourceNotFoundException("Comment with id: "+parentId+" not found");}
+                }
+            }else {throw  new ResourceNotFoundException("blog not found");}
+        }else {throw new ResourceNotFoundException("user not found");}
 
-        //r//eturn commentRepo.save(comment);
-        commentRepo.save(comment);
-        return "Comment added";
+        return "Comment Added";
     }
+
+
 
 
     @Override

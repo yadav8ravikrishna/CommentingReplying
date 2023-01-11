@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface CommentRepo extends JpaRepository<Comment,Long> {
-//    @Query("SELECT NEW  com.BLOG.bloggingApp.dto.CommentDto(c.id, c.commentContent, c.parentId)" +
+//    @Query("SELECT NEW  com.BLOG.bloggingApp.dto.CommentDto(c.id, c.commentContent, c.user)" +
 //            "FROM Comment as c WHERE parentId = :parentId")
 //    public List<CommentDto> findByParent(@Param("parentId") Long parentId);
-}
+    }

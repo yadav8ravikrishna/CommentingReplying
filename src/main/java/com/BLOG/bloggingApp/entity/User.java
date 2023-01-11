@@ -21,6 +21,8 @@ public class User {
     @OneToMany(targetEntity = Blog.class,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "usersBlog_fk",referencedColumnName = "id")
     Set<Blog> blogs;
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    Set<Comment> comments;
     
 
 }

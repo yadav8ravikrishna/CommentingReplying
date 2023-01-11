@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CommentServiceInterface {
-    String addComment(Long blogId,Long userId, Long parentId, Comment comment,Long commentedBy)throws ResourceNotFoundException ;
+    String addComment(Long blogId, Long parentId, Comment comment,Long commentedBy)throws ResourceNotFoundException ;
     Optional<Comment> getAComment(Long id);
     Optional<Comment> editComment(Long id, Comment comment);
     String deleteComment(Long id);

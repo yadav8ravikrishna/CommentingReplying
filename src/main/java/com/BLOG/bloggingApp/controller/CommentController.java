@@ -19,8 +19,8 @@ public class CommentController {
     }
 
 
-    @PostMapping("/addComment/postedBy/{userId}/blog/{blogId}/hasParent/{parentId}/commentedBy/{commentedBy}")
-    public String addComment(@PathVariable("blogId") Long blogId,@PathVariable("userId")Long userId, @PathVariable("parentId")Long parentId, @RequestBody Comment comment,@PathVariable Long commentedBy) throws ResourceNotFoundException {
-        return commentService.addComment(blogId,userId,parentId,comment,commentedBy);
+    @PostMapping("/addComment/blog/{blogId}/hasParent/{parentId}/commentedBy/{commentedBy}")
+    public String addComment(@PathVariable("blogId") Long blogId, @PathVariable("parentId")Long parentId, @RequestBody Comment comment,@PathVariable Long commentedBy) throws ResourceNotFoundException {
+        return commentService.addComment(blogId,parentId,comment,commentedBy);
     }
 }
